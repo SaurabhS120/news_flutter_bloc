@@ -6,7 +6,7 @@ import 'package:news_flutter_domain/NewsDI.dart';
 import 'package:news_flutter_domain/usecase/get_news_usecase.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
