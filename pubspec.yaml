@@ -45,7 +45,7 @@ dependencies:
       url: https://github.com/SaurabhS120/news_flutter_data_dummy.git
       ref: 1.0.3
   either_dart: ^1.0.0
-  rxdart: ^0.27.7
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_test:

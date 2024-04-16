@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_flutter/home_page.dart';
 
 void main() {
@@ -25,7 +26,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home:BlocProvider<HomePageViewModel>(
+        create: (BuildContext context) {
+          var model = HomePageViewModel();
+          model.add(HomePageGetNewsEvent());
+          return model;
+        },
+        child: const HomePage(),
+      ),
     );
   }
 }
