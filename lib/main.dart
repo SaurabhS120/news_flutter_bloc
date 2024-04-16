@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_flutter/home_page.dart';
+import 'package:news_flutter_data_dummy/di.dart';
+import 'package:news_flutter_domain/NewsDI.dart';
+import 'package:news_flutter_domain/usecase/get_news_usecase.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,23 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home:BlocProvider<HomePageViewModel>(
-        create: (BuildContext context) {
-          var model = HomePageViewModel();
-          model.add(HomePageGetNewsEvent());
-          return model;
-        },
-        child: const HomePage(),
+      home:RepositoryProvider<NewsDI>(
+        create: (BuildContext context) => DummyNewsDI(),
+        child: RepositoryProvider<GetNewsUseCase>(
+          create: (BuildContext context) {
+            NewsDI newsDI = RepositoryProvider.of(context);
+            GetNewsUseCase getNewsUseCase = newsDI.createGetNewsUseCase();
+            return getNewsUseCase;
+          },
+          child: BlocProvider<HomePageViewModel>(
+            create: (BuildContext context) {
+              var model = HomePageViewModel(RepositoryProvider.of<GetNewsUseCase>(context));
+              model.add(HomePageGetNewsEvent());
+              return model;
+            },
+            child: const HomePage(),
+          ),
+        ),
       ),
     );
   }

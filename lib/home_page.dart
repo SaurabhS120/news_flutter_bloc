@@ -91,9 +91,9 @@ class HomePageBlocStateError extends HomePageBlocState {
 
 class HomePageViewModel extends Bloc<HomePageEvent, HomePageBlocState> {
   NewsDI newsDI = DummyNewsDI();
-  late GetNewsUseCase getNewsUseCase = newsDI.createGetNewsUseCase();
+  final GetNewsUseCase getNewsUseCase;
 
-  HomePageViewModel() : super(HomePageBlocStateInitial()) {
+  HomePageViewModel(this.getNewsUseCase) : super(HomePageBlocStateInitial()) {
     on<HomePageGetNewsEvent>((event, emit) async {
       emit(HomePageBlocStateLoading());
       var result = await getNewsUseCase.execute(GetNewsUseCaseParams());
